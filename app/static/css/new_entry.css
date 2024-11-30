@@ -1,29 +1,68 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
 }
 
 .container {
     margin-top: 50px;
 }
 
-.record-btn, .pause-btn, .stop-btn, .re-record-btn, .playback-btn, .save-btn {
-    font-size: 20px;
-    padding: 15px;
-    width: 100%;
-    margin: 10px 0;
+.section-header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
 }
 
-#live-transcription {
-    max-height: 100px;
+.recording-section {
+    background-color: #007bff;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.recording-buttons button {
+    font-size: 20px;
+    padding: 15px;
+    margin: 10px;
+    width: calc(33% - 20px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recording-buttons button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.playback-section, .transcription-section {
+    margin-top: 30px;
+}
+
+.playback-section h4, .transcription-section h4 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.transcription-section #live-transcription {
+    max-height: 400px; /* Increased size for better viewing */
     overflow-y: auto;
     font-size: 16px;
-    padding: 10px;
+    padding: 15px;
     border: 1px solid #ddd;
-    border-radius: 5px;
+    border-radius: 8px;
     background-color: #fff;
 }
 
 #timer {
-    font-size: 24px;
+    font-size: 32px;
     font-weight: bold;
+    margin-top: 20px;
+}
+
+.btn-save {
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 15px;
+    width: 100%;
 }

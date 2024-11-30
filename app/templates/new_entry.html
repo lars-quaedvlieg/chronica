@@ -30,31 +30,41 @@
     </nav>
 
     <div class="container">
-        <div class="text-center mb-5">
+        <!-- Recording Section -->
+        <div class="recording-section">
             <h1>New Entry</h1>
+            <p>Effortlessly record your thoughts and ideas. Start by pressing the record button below.</p>
             <p id="timer">00:00</p>
+            <div class="recording-buttons d-flex justify-content-center">
+                <button id="record-btn" class="btn btn-light text-primary"><i class="fas fa-microphone"></i> Start Recording</button>
+                <button id="pause-btn" class="btn btn-light text-warning" style="display: none;"><i class="fas fa-pause"></i> Pause</button>
+                <button id="stop-btn" class="btn btn-light text-danger" style="display: none;"><i class="fas fa-stop"></i> Stop</button>
+            </div>
         </div>
 
-        <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
-                <button id="record-btn" class="btn btn-primary record-btn">🎙️ Start Recording</button>
-                <button id="pause-btn" class="btn btn-warning pause-btn" style="display: none;">⏸️ Pause Recording</button>
-                <button id="stop-btn" class="btn btn-danger stop-btn" style="display: none;">⏹️ Stop Recording</button>
-                <button id="re-record-btn" class="btn btn-secondary re-record-btn" style="display: none;">🔄 Re-record</button>
-                <button id="playback-btn" class="btn btn-success playback-btn" style="display: none;">▶️ Play Recording</button>
-                <button id="save-btn" class="btn btn-info save-btn" style="display: none;">💾 Save Entry</button>
+        <!-- Playback Section -->
+        <div class="playback-section">
+            <h4>Playback Recording</h4>
+            <div class="text-center">
+                <button id="re-record-btn" class="btn btn-secondary" style="display: none;">🔄 Re-record</button>
+                <button id="playback-btn" class="btn btn-success" style="display: none;">▶️ Play Recording</button>
                 <audio id="audio-playback" controls style="display: none; margin-top: 20px; width: 100%;"></audio>
             </div>
         </div>
 
-        <div class="row justify-content-center mt-4">
-            <div class="col-md-8">
-                <h4>Live Transcription:</h4>
-                <div id="live-transcription">Live transcription will appear here...</div>
-            </div>
+        <!-- Live Transcription Section -->
+        <div class="transcription-section">
+            <h4>Live Transcription</h4>
+            <div id="live-transcription" class="p-3">Live transcription will appear here...</div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="text-center">
+            <button id="save-btn" class="btn btn-info btn-save" style="display: none;">💾 Save Entry</button>
         </div>
     </div>
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome Icons -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/new_entry.js') }}"></script>
