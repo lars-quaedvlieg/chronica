@@ -7,6 +7,21 @@ body {
     margin-top: 50px;
 }
 
+.navbar-custom {
+    background-color: #343a40; /* Dark background */
+    padding: 15px 20px; /* Increase padding for a modern feel */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: #ffffff; /* White text color for contrast */
+    transition: color 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffc107; /* Golden color for hover effect */
+}
+
 .section-header {
     margin-top: 40px;
     margin-bottom: 20px;

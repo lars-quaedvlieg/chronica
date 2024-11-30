@@ -1,44 +1,41 @@
 body {
-    background-color: #f8f9fa;
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
 }
 
-.note-card {
-    margin-bottom: 20px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.note-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.badge {
-    margin-right: 5px;
+.section-title {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 .filter-section {
     margin: 20px 0;
 }
 
-.month-section {
-    margin-bottom: 40px;
+.note-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
 }
 
-#notes-container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.note-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    margin-right: 5px;
 }
 
 .notes-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 
 .month-label {
     font-size: 24px;
     font-weight: bold;
-    margin-bottom: 15px;
+    margin: 20px 0 15px;
+    color: #007bff;
 }
