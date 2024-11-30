@@ -4,44 +4,39 @@ body {
 }
 
 .container {
-    margin-top: 100px;
+    margin-top: 60px;
 }
 
-.btn-chronica {
-    height: 200px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    color: white;
-    border: none;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+.card {
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-.btn-chronica-add {
-    background-color: #007bff; /* Blue color for Add Note */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
-.btn-chronica-gallery {
-    background-color: #6c757d; /* Gray color for Gallery */
+.card-body-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
 }
 
-.btn-chronica:hover {
-    transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-}
-
-.logo {
-    font-size: 36px;
-    font-weight: bold;
-    color: #333;
-    margin-bottom: 50px;
+.welcome-section {
+    background-color: #007bff;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
     text-align: center;
 }
 
-.btn-icon {
-    margin-right: 10px;
-    font-size: 32px;
+.statistics-placeholder {
+    height: 150px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    color: #6c757d;
+    font-size: 18px;
 }
