@@ -93,17 +93,20 @@ saveButton.addEventListener('click', () => {
             method: 'POST',
             body: formData
         })
-        .then(response => response.json())
-        .then(data => {
-            if (response.ok) {
-                alert('Entry saved successfully!');
-                // Redirect to the new note entry using the note_id returned from the response
-                window.location.href = `/view_entry/${data.note_id}`;
-            } else {
-                alert('Failed to save entry.');
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to save entry.');
             }
+            return response.json();
         })
-        .catch(error => console.error('Error:', error));
+        .then(data => {
+            // Redirect to the new note entry using the note_id returned from the response
+            window.location.href = `/view_entry/${data.note_id}`;
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Failed to save entry.');
+        });
     }
 });
 

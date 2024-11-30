@@ -7,7 +7,7 @@ from flask import Blueprint, render_template, request, jsonify
 from app.services import transcription
 from app.services.transcription_information import get_title_summary_tags_from_transcription
 
-NOTES_DIR = 'notes'
+NOTES_DIR = 'app/static/notes'
 
 bp = Blueprint('new_entry', __name__, url_prefix='/new_entry')
 
@@ -53,14 +53,14 @@ def save_entry():
         'transcription': transcription,
         'datetime': datetime_str
     }
-    json_path = os.path.join(save_path, f'{note_id}.json')
+    json_path = os.path.join(save_path, f'data.json')
     with open(json_path, 'w') as json_file:
         json.dump(json_dict, json_file, indent=4)
 
     # Save the audio data
-    audio_path = os.path.join(save_path, f'{note_id}.wav')
+    audio_path = os.path.join(save_path, f'audio.wav')
     audio_data.save(audio_path)
 
     # Additional logic such as saving to a database can be added here
 
-    return jsonify({'message': 'Entry saved successfully'}), 200
+    return jsonify({'message': 'Entry saved successfully', 'note_id': note_id}), 200

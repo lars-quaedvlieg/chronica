@@ -21,7 +21,7 @@ def load_note_ids(note_ids):
     """
     notes = []
     for note_id in note_ids:
-        note_path = os.path.join(NOTES_DIR, str(note_id), f'{note_id}.json')
+        note_path = os.path.join(NOTES_DIR, str(note_id), f'data.json')
         if os.path.exists(note_path):
             with open(note_path, 'r') as json_file:
                 note = json.load(json_file)
