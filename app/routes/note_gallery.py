@@ -9,4 +9,4 @@ def note_gallery():
         {'title': 'February Note 1', 'content': 'Sample content for February note 1'},
         {'title': 'January Note 1', 'content': 'Sample content for January note 1'}
     ]
-    return render_template('templates/note_gallery.html', notes=notes)
+    return render_template('note_gallery.html', notes=notes)

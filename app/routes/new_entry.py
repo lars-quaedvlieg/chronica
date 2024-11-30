@@ -9,5 +9,5 @@ def new_entry():
         # Logic for handling live transcription
         audio_file = request.files['audio']
         transcript = transcribe_audio(audio_file)
-        return render_template('templates/new_entry.html', transcript=transcript)
-    return render_template('templates/new_entry.html')
+        return render_template('new_entry.html', transcript=transcript)
+    return render_template('new_entry.html')

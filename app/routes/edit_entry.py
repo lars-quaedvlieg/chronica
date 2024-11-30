@@ -11,4 +11,4 @@ def edit_entry(entry_id):
         return redirect(url_for('view_entry.view_entry', entry_id=entry_id))
     # Logic for getting the entry to edit
     entry = {'id': entry_id, 'title': 'Sample Entry', 'content': 'This is a sample entry content.'}
-    return render_template('templates/edit_entry.html', entry=entry)
+    return render_template('edit_entry.html', entry=entry)
