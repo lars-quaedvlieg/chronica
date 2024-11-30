@@ -28,7 +28,7 @@ recordButton.addEventListener('click', async () => {
         saveButton.style.display = 'none';
         audioPlayback.style.display = 'none';
         startTimer();
-        startRecording();
+        await startRecording();
     }
 });
 
@@ -54,7 +54,7 @@ stopButton.addEventListener('click', () => {
     if (isRecording) {
         // Stop recording
         isRecording = false;
-        stopRecording();
+        mediaRecorder.stop();
         stopButton.style.display = 'none';
         pauseButton.style.display = 'none';
         reRecordButton.style.display = 'inline-block';
@@ -76,8 +76,7 @@ reRecordButton.addEventListener('click', () => {
 playbackButton.addEventListener('click', () => {
     if (audioChunks.length > 0) {
         const audioBlob = new Blob(audioChunks, { type: 'audio/wav; codecs=MS_PCM' });
-        const audioUrl = URL.createObjectURL(audioBlob);
-        audioPlayback.src = audioUrl;
+        audioPlayback.src = URL.createObjectURL(audioBlob);
         audioPlayback.style.display = 'block';
     }
 });
@@ -114,20 +113,15 @@ async function startRecording() {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
     mediaRecorder = new MediaRecorder(stream);
 
-    mediaRecorder.ondataavailable = (event) => {
-        audioChunks.push(event.data);
-        streamAudio(event.data); // Stream audio chunk to server
+    mediaRecorder.ondataavailable = async (event) => {
+        if (event.data.size > 0) {
+            // Send each chunk as it becomes available
+            audioChunks.push(event.data);
+            await streamAudioChunk(event.data);
+        }
     };
 
-    mediaRecorder.start();
-}
-
-function stopRecording() {
-    mediaRecorder.stop();
-    mediaRecorder.onstop = () => {
-        // Once recording is stopped, allow playback
-        audioChunks = [...audioChunks]; // Keep the recorded chunks for playback
-    };
+    mediaRecorder.start(1000); // Request data every 1000 ms (1 second)
 }
 
 function resetRecording() {
@@ -151,19 +145,22 @@ function stopTimer() {
     clearInterval(timerInterval);
 }
 
-async function streamAudio(audioData) {
-    // Simulate streaming audio to server (this would be a WebSocket or HTTP request)
+async function streamAudioChunk(audioData) {
     const formData = new FormData();
     formData.append('audio', audioData);
 
-    const response = await fetch('/new_entry/stream_audio', {
-        method: 'POST',
-        body: formData
-    });
+    try {
+        const response = await fetch('/new_entry/stream_audio', {
+            method: 'POST',
+            body: formData
+        });
 
-    if (response.ok) {
-        const data = await response.json();
-        updateLiveTranscription(data.transcription);
+        if (response.ok) {
+            const data = await response.json();
+            updateLiveTranscription(data.transcription);
+        }
+    } catch (error) {
+        console.error('Error streaming audio chunk:', error);
     }
 }
 
@@ -171,8 +168,8 @@ function updateLiveTranscription(text) {
     liveTranscript += ' ' + text;
     const transcriptWords = liveTranscript.split(' ');
     const maxWordsPerLine = 10;
-    const displayedTranscript = transcriptWords.slice(-2 * maxWordsPerLine).join(' ');
+    liveTranscription.textContent = transcriptWords.slice(-20 * maxWordsPerLine).join(' ');
 
-    liveTranscription.textContent = displayedTranscript;
-    liveTranscription.scrollTop = liveTranscription.scrollHeight; // Auto-scroll
+    // Auto-scroll the transcription box to the bottom
+    liveTranscription.scrollTop = liveTranscription.scrollHeight;
 }

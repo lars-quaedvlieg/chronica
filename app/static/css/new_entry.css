@@ -14,8 +14,8 @@ body {
 }
 
 #live-transcription {
-    max-height: 100px;
-    overflow-y: auto;
+    max-height: 800px; /* Increase height to make it larger */
+    overflow-y: auto; /* Allow vertical scrolling */
     font-size: 16px;
     padding: 10px;
     border: 1px solid #ddd;
