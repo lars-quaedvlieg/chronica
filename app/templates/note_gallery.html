@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Gallery</title>
+</head>
+<body>
+    <h1>Note Gallery</h1>
+    <ul>
+        {% for note in notes %}
+            <li>{{ note.title }} - {{ note.content }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
