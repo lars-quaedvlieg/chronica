@@ -98,19 +98,19 @@ CLIENT.stream = CLIENT.p.open(
 )
 
 
-def update_recording(new_entry_path: str) -> str:
-    print(f"[INFO] Whispering path {new_entry_path}")
-    with wave.open(new_entry_path, "rb") as wavfile:
-        assert wavfile.getframerate() == 16000, wavfile.getframerate()
-        assert wavfile.getsampwidth() == 2
-        print("[INFO] This wav should be", wavfile.getnframes()/wavfile.getframerate(), "seconds")
-        while (data := wavfile.readframes(CLIENT.chunk)) != b"":
-            print("[INFO] Sending data with length", len(data))
-            assert len(CLIENT.clients) == 1
-            audio_array = CLIENT.bytes_to_float_array(data)
-            print("[INFO] Len array:", audio_array.size)
-            CLIENT.multicast_packet(audio_array.tobytes())
-            CLIENT.stream.write(data)
+def update_recording(binary_wav_data: bytes) -> str:
+    # print(f"[INFO] Whispering path {new_entry_path}")
+    # with wave.open(new_entry_path, "rb") as wavfile:
+    #     assert wavfile.getframerate() == 16000, wavfile.getframerate()
+    #     assert wavfile.getsampwidth() == 2
+    # print("[INFO] This wav should be", wavfile.getnframes()/wavfile.getframerate(), "seconds")
+    # while (data := wavfile.readframes(CLIENT.chunk)) != b"":
+    print("[INFO] Sending data with length", len(binary_wav_data))
+    assert len(CLIENT.clients) == 1
+    audio_array = CLIENT.bytes_to_float_array(binary_wav_data)
+    print("[INFO] Len array:", audio_array.size)
+    CLIENT.multicast_packet(audio_array.tobytes())
+    CLIENT.stream.write(binary_wav_data)
 
     while CLIENT.clients[0].done_with_this_crap < 2:
         time.sleep(0.05)
