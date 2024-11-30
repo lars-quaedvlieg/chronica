@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Note Gallery - Chronica</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/note_gallery.css') }}">
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Chronica</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/note_gallery">Note Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/new_entry">Add Note</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- Section Title -->
+        <div class="section-title">
+            <h1>Note Gallery</h1>
+            <p>Explore your saved notes by time periods and find what you need easily.</p>
+        </div>
+
+        <!-- Filter and Search Section -->
+        <div class="filter-section text-center">
+            <div class="search-container">
+                <input type="text" class="form-control" id="search-bar" placeholder="Search notes...">
+                <button id="search-button"><i class="fas fa-search"></i>Search</button>
+            </div>
+            <div class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
+                <label class="btn btn-outline-primary active">
+                    <input type="radio" name="filter" value="month" checked> Month
+                </label>
+                <label class="btn btn-outline-primary">
+                    <input type="radio" name="filter" value="week"> Week
+                </label>
+                <label class="btn btn-outline-primary">
+                    <input type="radio" name="filter" value="year"> Year
+                </label>
+            </div>
+        </div>
+
+        <!-- Available Tags Filter Section -->
+        <div class="available-tags-container">
+            <h4>Filter by Tags</h4>
+            <div id="available-tags">
+                <!-- Tags will be dynamically generated here by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Notes Section -->
+        <div id="notes-container" class="mt-4">
+            <!-- Notes data will be dynamically generated here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Embedding Notes Data as a JSON Object -->
+    <script id="notes-data" type="application/json">
+        {{ notes | tojson | safe }}
+    </script>
+
+    <!-- Embedding Available Tags Data as a JSON Object -->
+    <script id="tags-data" type="application/json">
+        {{ all_available_tags | tojson | safe }}
+    </script>
+
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome Icons -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/note_gallery.js') }}"></script>
+
+</body>
+</html>

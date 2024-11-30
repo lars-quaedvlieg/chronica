@@ -1,0 +1,83 @@
+body {
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.navbar-custom {
+    background-color: #343a40; /* Dark background */
+    padding: 15px 20px; /* Increase padding for a modern feel */
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+    color: #ffffff; /* White text color for contrast */
+    transition: color 0.3s ease;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #ffc107; /* Golden color for hover effect */
+}
+
+.section-header {
+    margin-top: 40px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.recording-section {
+    background-color: #007bff;
+    color: white;
+    padding: 30px;
+    border-radius: 8px;
+    margin-bottom: 40px;
+    text-align: center;
+}
+
+.recording-buttons button {
+    font-size: 20px;
+    padding: 15px;
+    margin: 10px;
+    width: calc(33% - 20px);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.recording-buttons button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.playback-section, .transcription-section {
+    margin-top: 30px;
+}
+
+.playback-section h4, .transcription-section h4 {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.transcription-section #live-transcription {
+    max-height: 400px; /* Increased size for better viewing */
+    overflow-y: auto;
+    font-size: 16px;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #fff;
+}
+
+#timer {
+    font-size: 32px;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.btn-save {
+    margin-top: 20px;
+    font-size: 20px;
+    padding: 15px;
+    width: 100%;
+}

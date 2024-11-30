@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Entry - Chronica</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_entry.css') }}">
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Chronica</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/note_gallery">Note Gallery</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/new_entry">Add Note</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <div class="d-flex align-items-center mb-4">
+            <a href="/note_gallery" class="back-button"><i class="fas fa-arrow-left"></i> Back to Gallery</a>
+            <h1 class="ml-3 entry-title">{{ note.title }}</h1>
+        </div>
+
+        <!-- Card for General Info -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> Note Information
+            </div>
+            <div class="card-body">
+                <p class="card-text"><strong>Datetime:</strong> {{ note.datetime }}</p>
+                <p class="card-text"><strong>Tags:</strong>
+                    {% for tag in note.tags %}
+                        <span class="badge {% if loop.index is even %}badge-primary{% else %}badge-secondary{% endif %}">{{ tag }}</span>
+                    {% endfor %}
+                </p>
+            </div>
+        </div>
+
+        <!-- Card for Summary -->
+        <div class="card summary-section">
+            <div class="card-header">
+                <i class="fas fa-file-alt"></i> Summary
+            </div>
+            <div class="card-body">
+                <p>{{ note.summary }}</p>
+            </div>
+        </div>
+
+        <!-- Card for Audio -->
+        <div class="card audio-section">
+            <div class="card-header">
+                <i class="fas fa-volume-up"></i> Audio
+            </div>
+            <div class="card-body">
+                <audio controls class="audio-control">
+                    <source src="{{ url_for('static', filename='notes/' + note.id + '/' + 'audio.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
+
+        <!-- Card for Transcription -->
+        <div class="card transcription-section">
+            <div class="card-header">
+                <i class="fas fa-keyboard"></i> Transcription
+            </div>
+            <div class="card-body">
+                <p>{{ note.transcription }}</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chronica - Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Welcome Section -->
+        <div class="welcome-section">
+            <h1>Welcome to Chronica</h1>
+            <p>Effortlessly record, save, and manage your voice notes. Get insights, explore trends, and stay organized.</p>
+        </div>
+
+        <!-- Main Features Section -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="card-body-icon">➕</div>
+                        <h5 class="card-title">Add Note</h5>
+                        <p class="card-text">Create a new voice note to capture your thoughts on the go.</p>
+                        <a href="/new_entry" class="btn btn-primary">Create Note</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="card-body-icon">📁</div>
+                        <h5 class="card-title">Note Gallery</h5>
+                        <p class="card-text">Browse your saved notes, search and manage them easily.</p>
+                        <a href="/note_gallery" class="btn btn-secondary">View Notes</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card shadow-sm">
+                    <div class="card-body text-center">
+                        <div class="card-body-icon">📊</div>
+                        <h5 class="card-title">Statistics</h5>
+                        <p class="card-text">Get insights from your notes. View word clouds, trends, and statistics.</p>
+                        <a href="#" class="btn btn-info">Coming Soon</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Statistics Placeholder Section -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3>Statistics Overview</h3>
+                <div class="statistics-placeholder">
+                    <p>Placeholder for statistics overview like word clouds, note summaries, and usage trends.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Notes Section -->
+        <div class="row mb-5">
+            <div class="col-md-12">
+                <h3>Recent Notes</h3>
+                <div class="card-deck">
+                    {% if recent_notes %}
+                        {% for note in recent_notes %}
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ note.title }}</h5>
+                                    <div>
+                                        <!-- Display Tags -->
+                                        {% for tag in note.tags %}
+                                            <span class="badge badge-primary">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    <p class="card-text mt-3">{{ note.summary }}</p>
+                                    <p class="card-text"><small class="text-muted">Last updated {{ note.datetime }}</small></p>
+                                    <a href="/view_entry/{{ note.id }}" class="btn btn-primary">View Note</a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>No recent notes available.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

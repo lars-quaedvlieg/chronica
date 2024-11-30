@@ -1,0 +1,92 @@
+body {
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
+}
+
+.section-title {
+    text-align: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.filter-section {
+    margin: 20px 0;
+}
+
+.note-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-radius: 8px;
+}
+
+.note-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+    margin-right: 5px;
+}
+
+.notes-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.month-label {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 20px 0 15px;
+    color: #007bff;
+}
+
+.tag-badge {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.filter-section {
+    margin-bottom: 30px;
+}
+
+.available-tags-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.available-tag {
+    display: inline-block;
+    margin: 5px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    flex: 1;
+    border-radius: 0.25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}
