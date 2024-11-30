@@ -49,41 +49,45 @@ document.addEventListener('DOMContentLoaded', function () {
         return sortedGroupedNotes;
     }
 
-    // Function to render notes into the container
     function renderNotes(groupedNotes) {
         notesContainer.innerHTML = ''; // Clear previous content
-
+    
+        let hasNotes = false; // Track if there are any notes to display
+    
         for (const [groupKey, notes] of Object.entries(groupedNotes)) {
+            if (notes.length === 0) continue; // Skip categories without notes
+    
+            hasNotes = true; // Found notes to display
             const groupSection = document.createElement('div');
             groupSection.classList.add('month-section');
-
+    
             // Add group label (month, week, year)
             const groupLabel = document.createElement('div');
             groupLabel.classList.add('month-label');
             groupLabel.textContent = groupKey;
             groupSection.appendChild(groupLabel);
-
+    
             // Create a grid for the notes in this group
             const notesGrid = document.createElement('div');
             notesGrid.classList.add('notes-grid');
-
+    
             notes.forEach(note => {
                 const noteCard = document.createElement('div');
                 noteCard.classList.add('card', 'note-card');
                 noteCard.setAttribute('data-id', note.id);
                 noteCard.setAttribute('data-datetime', note.datetime);
-
+    
                 const cardBody = document.createElement('div');
                 cardBody.classList.add('card-body');
-
+    
                 const cardTitle = document.createElement('h5');
                 cardTitle.classList.add('card-title');
                 cardTitle.textContent = note.title;
-
+    
                 const cardDatetime = document.createElement('p');
                 cardDatetime.classList.add('card-text');
                 cardDatetime.innerHTML = `<small class="text-muted">${note.datetime}</small>`;
-
+    
                 // Append tags
                 const tagsContainer = document.createElement('div');
                 note.tags.forEach(tag => {
@@ -92,29 +96,38 @@ document.addEventListener('DOMContentLoaded', function () {
                     tagBadge.textContent = tag;
                     tagsContainer.appendChild(tagBadge);
                 });
-
+    
                 // Append content to card
                 cardBody.appendChild(cardTitle);
                 cardBody.appendChild(cardDatetime);
                 cardBody.appendChild(tagsContainer);
                 noteCard.appendChild(cardBody);
-
+    
                 // Add event listener for redirection
                 noteCard.addEventListener('click', () => {
                     window.location.href = `/view_entry/${note.id}`;
                 });
-
+    
                 // Add card to grid
                 notesGrid.appendChild(noteCard);
             });
-
+    
             // Add notes grid to the group section
             groupSection.appendChild(notesGrid);
-
+    
             // Append group section to the container
             notesContainer.appendChild(groupSection);
         }
+    
+        // Display a message if no notes are found
+        if (!hasNotes) {
+            const noResultsMessage = document.createElement('p');
+            noResultsMessage.textContent = 'No notes match your search.';
+            noResultsMessage.classList.add('no-results-message');
+            notesContainer.appendChild(noResultsMessage);
+        }
     }
+    
 
     // Initial render grouped by month
     let currentFilter = 'month';
@@ -130,17 +143,14 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Event Listener for Search Bar
     searchBar.addEventListener('input', () => {
         const searchQuery = searchBar.value.toLowerCase();
-        const noteCards = document.querySelectorAll('.note-card');
-        noteCards.forEach(noteCard => {
-            const title = noteCard.querySelector('.card-title').textContent.toLowerCase();
-            if (title.includes(searchQuery)) {
-                noteCard.style.display = '';
-            } else {
-                noteCard.style.display = 'none';
-            }
-        });
+        const filteredNotes = notes.filter(note => 
+            note.title.toLowerCase().includes(searchQuery)
+        );
+    
+        const groupedNotes = groupNotesByFilter(filteredNotes, currentFilter);
+        renderNotes(groupedNotes);
     });
+    
 });
