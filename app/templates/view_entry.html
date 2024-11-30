@@ -41,11 +41,10 @@
     <div class="container mt-4">
         <div class="d-flex align-items-center mb-4">
             <a href="/note_gallery" class="back-button">&larr; Back to Gallery</a>
-            <h1 class="ml-2">Note Details</h1>
+            <h1 class="ml-2">{{ note.title }}</h1>
         </div>
         <div class="card mt-3">
             <div class="card-body">
-                <h5 class="card-title">{{ note.title }}</h5>
                 <p class="card-text"><strong>Datetime:</strong> {{ note.datetime }}</p>
                 <p class="card-text"><strong>Tags:</strong>
                     {% for tag in note.tags %}
