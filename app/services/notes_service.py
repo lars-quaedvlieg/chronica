@@ -37,7 +37,7 @@ def load_all_notes():
     if os.path.exists(NOTES_DIR):
         for note_id in os.listdir(NOTES_DIR):
             note_dir = os.path.join(NOTES_DIR, note_id)
-            json_path = os.path.join(note_dir, f'{note_id}.json')
+            json_path = os.path.join(note_dir, f'data.json')
             if os.path.isdir(note_dir) and os.path.exists(json_path):
                 with open(json_path, 'r') as json_file:
                     note = json.load(json_file)
