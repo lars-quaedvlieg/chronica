@@ -4,13 +4,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home Page</title>
+    <title>Chronica - Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            background-color: #f0f4f8;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin-top: 100px;
+        }
+
+        .btn-chronica {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .btn-chronica-add {
+            background-color: #007bff; /* Blue color for Add Note */
+        }
+
+        .btn-chronica-gallery {
+            background-color: #6c757d; /* Gray color for Gallery */
+        }
+
+        .btn-chronica:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            font-size: 36px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .btn-icon {
+            margin-right: 10px;
+            font-size: 32px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Welcome to the Note Gallery App</h1>
-    <nav>
-        <a href="/new_entry/">New Entry</a> |
-        <a href="/note_gallery/">Note Gallery</a>
-    </nav>
+    <div class="container text-center">
+        <div class="logo">Chronica</div>
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <a href="/new_entry" class="btn btn-chronica btn-chronica-add btn-block">
+                    <span class="btn-icon">➕</span> Add Note
+                </a>
+            </div>
+            <div class="col-md-4">
+                <a href="/note_gallery" class="btn btn-chronica btn-chronica-gallery btn-block">
+                    <span class="btn-icon">📁</span> Gallery
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

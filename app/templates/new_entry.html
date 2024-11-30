@@ -1,20 +1,264 @@
+<!-- app/templates/new_entry.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>New Entry</title>
+    <title>New Entry - Chronica</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 50px;
+        }
+
+        .record-btn, .pause-btn, .stop-btn, .re-record-btn, .playback-btn, .save-btn {
+            font-size: 20px;
+            padding: 15px;
+            width: 100%;
+            margin: 10px 0;
+        }
+
+        #live-transcription {
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 16px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        #timer {
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
-    <h1>New Entry</h1>
-    <form method="post" enctype="multipart/form-data">
-        <label for="audio">Upload Audio:</label>
-        <input type="file" id="audio" name="audio" accept="audio/*">
-        <button type="submit">Transcribe</button>
-    </form>
-    {% if transcript %}
-        <h2>Transcript:</h2>
-        <p>{{ transcript }}</p>
-    {% endif %}
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Chronica</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/note_gallery">Note Gallery</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1>New Entry</h1>
+            <p id="timer">00:00</p>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <button id="record-btn" class="btn btn-primary record-btn">🎙️ Start Recording</button>
+                <button id="pause-btn" class="btn btn-warning pause-btn" style="display: none;">⏸️ Pause Recording</button>
+                <button id="stop-btn" class="btn btn-danger stop-btn" style="display: none;">⏹️ Stop Recording</button>
+                <button id="re-record-btn" class="btn btn-secondary re-record-btn" style="display: none;">🔄 Re-record</button>
+                <button id="playback-btn" class="btn btn-success playback-btn" style="display: none;">▶️ Play Recording</button>
+                <button id="save-btn" class="btn btn-info save-btn" style="display: none;">💾 Save Entry</button>
+                <audio id="audio-playback" controls style="display: none; margin-top: 20px; width: 100%;"></audio>
+            </div>
+        </div>
+
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <h4>Live Transcription:</h4>
+                <div id="live-transcription">Live transcription will appear here...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let isRecording = false;
+        let isPaused = false;
+        let mediaRecorder;
+        let timerInterval;
+        let seconds = 0;
+        let audioChunks = [];
+        let liveTranscript = '';
+
+        const recordButton = document.getElementById('record-btn');
+        const pauseButton = document.getElementById('pause-btn');
+        const stopButton = document.getElementById('stop-btn');
+        const reRecordButton = document.getElementById('re-record-btn');
+        const playbackButton = document.getElementById('playback-btn');
+        const saveButton = document.getElementById('save-btn');
+        const audioPlayback = document.getElementById('audio-playback');
+        const timerDisplay = document.getElementById('timer');
+        const liveTranscription = document.getElementById('live-transcription');
+
+        recordButton.addEventListener('click', async () => {
+            if (!isRecording) {
+                // Start recording
+                isRecording = true;
+                recordButton.style.display = 'none';
+                pauseButton.style.display = 'inline-block';
+                stopButton.style.display = 'inline-block';
+                reRecordButton.style.display = 'none';
+                playbackButton.style.display = 'none';
+                saveButton.style.display = 'none';
+                audioPlayback.style.display = 'none';
+                startTimer();
+                startRecording();
+            }
+        });
+
+        pauseButton.addEventListener('click', () => {
+            if (isRecording) {
+                if (!isPaused) {
+                    // Pause recording
+                    mediaRecorder.pause();
+                    isPaused = true;
+                    pauseButton.textContent = '▶️ Resume Recording';
+                    stopTimer();
+                } else {
+                    // Resume recording
+                    mediaRecorder.resume();
+                    isPaused = false;
+                    pauseButton.textContent = '⏸️ Pause Recording';
+                    startTimer();
+                }
+            }
+        });
+
+        stopButton.addEventListener('click', () => {
+            if (isRecording) {
+                // Stop recording
+                isRecording = false;
+                stopRecording();
+                stopButton.style.display = 'none';
+                pauseButton.style.display = 'none';
+                reRecordButton.style.display = 'inline-block';
+                playbackButton.style.display = 'inline-block';
+                saveButton.style.display = 'inline-block';
+                stopTimer();
+            }
+        });
+
+        reRecordButton.addEventListener('click', () => {
+            resetRecording();
+            reRecordButton.style.display = 'none';
+            playbackButton.style.display = 'none';
+            saveButton.style.display = 'none';
+            audioPlayback.style.display = 'none';
+            recordButton.style.display = 'inline-block';
+        });
+
+        playbackButton.addEventListener('click', () => {
+            if (audioChunks.length > 0) {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const audioUrl = URL.createObjectURL(audioBlob);
+                audioPlayback.src = audioUrl;
+                audioPlayback.style.display = 'block';
+            }
+        });
+
+        saveButton.addEventListener('click', () => {
+            if (audioChunks.length > 0 && liveTranscript) {
+                const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
+                const formData = new FormData();
+                formData.append('audio', audioBlob);
+                formData.append('transcription', liveTranscript);
+
+                fetch('/new_entry/save_entry', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Entry saved successfully!');
+                    } else {
+                        alert('Failed to save entry.');
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        });
+
+        async function startRecording() {
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            mediaRecorder = new MediaRecorder(stream);
+
+            mediaRecorder.ondataavailable = (event) => {
+                audioChunks.push(event.data);
+                streamAudio(event.data); // Stream audio chunk to server
+            };
+
+            mediaRecorder.start();
+        }
+
+        function stopRecording() {
+            mediaRecorder.stop();
+            mediaRecorder.onstop = () => {
+                // Once recording is stopped, allow playback
+                audioChunks = [...audioChunks]; // Keep the recorded chunks for playback
+            };
+        }
+
+        function resetRecording() {
+            liveTranscript = '';
+            liveTranscription.textContent = 'Live transcription will appear here...';
+            timerDisplay.textContent = '00:00';
+            seconds = 0;
+            audioChunks = [];
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                seconds++;
+                const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
+                const secs = String(seconds % 60).padStart(2, '0');
+                timerDisplay.textContent = `${minutes}:${secs}`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
+        async function streamAudio(audioData) {
+            // Simulate streaming audio to server (this would be a WebSocket or HTTP request)
+            const formData = new FormData();
+            formData.append('audio', audioData);
+
+            const response = await fetch('/new_entry/stream_audio', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                updateLiveTranscription(data.transcription);
+            }
+        }
+
+        function updateLiveTranscription(text) {
+            liveTranscript += ' ' + text;
+            const transcriptWords = liveTranscript.split(' ');
+            const maxWordsPerLine = 10;
+            const displayedTranscript = transcriptWords.slice(-2 * maxWordsPerLine).join(' ');
+
+            liveTranscription.textContent = displayedTranscript;
+            liveTranscription.scrollTop = liveTranscription.scrollHeight; // Auto-scroll
+        }
+    </script>
 </body>
 </html>

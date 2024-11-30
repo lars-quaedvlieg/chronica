@@ -1,3 +1,4 @@
-def transcribe_audio(audio_file):
-    # Placeholder logic for audio transcription
-    return "This is a transcribed text from the provided audio file."
+def process_audio(audio_data):
+    # This is a placeholder function that returns sample text.
+    # In a real implementation, this would interact with a speech-to-text service.
+    return "sample transcription"

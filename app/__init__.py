@@ -12,4 +12,7 @@ def create_app():
     app.register_blueprint(edit_entry.bp)
     app.register_blueprint(home.bp)
 
+    # Configure secret key for session management
+    app.config['SECRET_KEY'] = 'ass'
+
     return app
