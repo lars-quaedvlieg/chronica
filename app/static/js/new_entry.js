@@ -147,7 +147,8 @@ function stopTimer() {
 
 async function streamAudioChunk(audioData) {
     const formData = new FormData();
-    formData.append('audio', audioData);
+    const audioBlob = new Blob([audioData], { type: 'audio/wav; codecs=MS_PCM' });
+    formData.append('audio', audioBlob);
 
     try {
         const response = await fetch('/new_entry/stream_audio', {
