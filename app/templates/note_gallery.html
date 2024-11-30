@@ -38,8 +38,9 @@
 
         <!-- Filter and Search Section -->
         <div class="filter-section text-center">
-            <div class="form-group">
+            <div class="search-container">
                 <input type="text" class="form-control" id="search-bar" placeholder="Search notes...">
+                <button id="search-button"><i class="fas fa-search"></i>Search</button>
             </div>
             <div class="btn-group btn-group-toggle mt-3" data-toggle="buttons">
                 <label class="btn btn-outline-primary active">
@@ -54,8 +55,16 @@
             </div>
         </div>
 
+        <!-- Available Tags Filter Section -->
+        <div class="available-tags-container">
+            <h4>Filter by Tags</h4>
+            <div id="available-tags">
+                <!-- Tags will be dynamically generated here by JavaScript -->
+            </div>
+        </div>
+
         <!-- Notes Section -->
-        <div id="notes-container">
+        <div id="notes-container" class="mt-4">
             <!-- Notes data will be dynamically generated here by JavaScript -->
         </div>
     </div>
@@ -63,6 +72,11 @@
     <!-- Embedding Notes Data as a JSON Object -->
     <script id="notes-data" type="application/json">
         {{ notes | tojson | safe }}
+    </script>
+
+    <!-- Embedding Available Tags Data as a JSON Object -->
+    <script id="tags-data" type="application/json">
+        {{ all_available_tags | tojson | safe }}
     </script>
 
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script> <!-- Font Awesome Icons -->

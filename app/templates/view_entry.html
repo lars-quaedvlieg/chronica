@@ -5,16 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Entry - Chronica</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .back-button {
-            margin-right: 10px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-        .audio-section, .transcription-section, .summary-section {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/view_entry.css') }}">
 </head>
 <body>
     <!-- Bootstrap Navbar -->
@@ -40,38 +32,55 @@
 
     <div class="container mt-4">
         <div class="d-flex align-items-center mb-4">
-            <a href="/note_gallery" class="back-button">&larr; Back to Gallery</a>
-            <h1 class="ml-2">{{ note.title }}</h1>
+            <a href="/note_gallery" class="back-button"><i class="fas fa-arrow-left"></i> Back to Gallery</a>
+            <h1 class="ml-3 entry-title">{{ note.title }}</h1>
         </div>
-        <div class="card mt-3">
+
+        <!-- Card for General Info -->
+        <div class="card">
+            <div class="card-header">
+                <i class="fas fa-info-circle"></i> Note Information
+            </div>
             <div class="card-body">
                 <p class="card-text"><strong>Datetime:</strong> {{ note.datetime }}</p>
                 <p class="card-text"><strong>Tags:</strong>
                     {% for tag in note.tags %}
-                        <span class="badge badge-primary">{{ tag }}</span>
+                        <span class="badge {% if loop.index is even %}badge-primary{% else %}badge-secondary{% endif %}">{{ tag }}</span>
                     {% endfor %}
                 </p>
             </div>
         </div>
-        <div class="card mt-3">
+
+        <!-- Card for Summary -->
+        <div class="card summary-section">
+            <div class="card-header">
+                <i class="fas fa-file-alt"></i> Summary
+            </div>
             <div class="card-body">
-                <div class="summary-section">
-                    <h4>Summary:</h4>
-                    <p>{{ note.summary }}</p>
-                </div>
+                <p>{{ note.summary }}</p>
+            </div>
+        </div>
 
-                <div class="audio-section">
-                    <h4>Audio:</h4>
-                    <audio controls>
-                        <source src="{{ url_for('static', filename='notes/' + note.id + '/' + 'audio.wav') }}" type="audio/wav">
-                        Your browser does not support the audio element.
-                    </audio>
-                </div>
+        <!-- Card for Audio -->
+        <div class="card audio-section">
+            <div class="card-header">
+                <i class="fas fa-volume-up"></i> Audio
+            </div>
+            <div class="card-body">
+                <audio controls class="audio-control">
+                    <source src="{{ url_for('static', filename='notes/' + note.id + '/' + 'audio.wav') }}" type="audio/wav">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </div>
 
-                <div class="transcription-section">
-                    <h4>Transcription:</h4>
-                    <p>{{ note.transcription }}</p>
-                </div>
+        <!-- Card for Transcription -->
+        <div class="card transcription-section">
+            <div class="card-header">
+                <i class="fas fa-keyboard"></i> Transcription
+            </div>
+            <div class="card-body">
+                <p>{{ note.transcription }}</p>
             </div>
         </div>
     </div>

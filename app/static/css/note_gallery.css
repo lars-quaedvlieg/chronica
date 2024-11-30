@@ -39,3 +39,54 @@ body {
     margin: 20px 0 15px;
     color: #007bff;
 }
+
+.tag-badge {
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.filter-section {
+    margin-bottom: 30px;
+}
+
+.available-tags-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.available-tag {
+    display: inline-block;
+    margin: 5px;
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+#search-bar {
+    flex: 1;
+    border-radius: 0.25rem;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#search-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+#search-button:hover {
+    background-color: #0056b3;
+}

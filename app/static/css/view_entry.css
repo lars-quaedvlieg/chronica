@@ -1,0 +1,88 @@
+body {
+    background-color: #f0f4f8;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    margin-top: 50px;
+}
+
+.back-button {
+    margin-right: 10px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    color: #007bff;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.back-button:hover {
+    color: #0056b3;
+    transform: translateX(-5px);
+    text-decoration: underline;
+}
+
+.entry-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #343a40;
+}
+
+.card {
+    margin-bottom: 20px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 15px;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background: linear-gradient(to right, #007bff, #00aaff);
+    color: #ffffff;
+    font-size: 1.3rem;
+    font-weight: bold;
+    border-radius: 15px 15px 0 0;
+    padding: 15px;
+}
+
+.card-body {
+    background-color: #ffffff;
+    border-radius: 0 0 15px 15px;
+    padding: 20px;
+}
+
+.badge {
+    margin-right: 5px;
+    padding: 10px;
+    font-size: 0.9rem;
+    border-radius: 12px;
+    transition: transform 0.2s ease;
+}
+
+.badge:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.badge-primary {
+    background-color: #ff7675;
+    color: #ffffff;
+}
+
+.badge-secondary {
+    background-color: #74b9ff;
+    color: #ffffff;
+}
+
+.audio-control {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.audio-section .card-body {
+    text-align: center;
+}
