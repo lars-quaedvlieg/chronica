@@ -1,37 +1,110 @@
-// app/static/js/new_entry.js
-
 let isRecording = false;
+let isPaused = false;
 let mediaRecorder;
 let timerInterval;
 let seconds = 0;
-let liveTranscript = '';
 let audioChunks = [];
+let liveTranscript = '';
 
 const recordButton = document.getElementById('record-btn');
-const timerDisplay = document.getElementById('timer');
+const pauseButton = document.getElementById('pause-btn');
+const stopButton = document.getElementById('stop-btn');
 const reRecordButton = document.getElementById('re-record-btn');
+const playbackButton = document.getElementById('playback-btn');
+const saveButton = document.getElementById('save-btn');
+const audioPlayback = document.getElementById('audio-playback');
+const timerDisplay = document.getElementById('timer');
 const liveTranscription = document.getElementById('live-transcription');
 
 recordButton.addEventListener('click', async () => {
     if (!isRecording) {
         // Start recording
         isRecording = true;
-        recordButton.textContent = '⏹️ Stop';
+        recordButton.style.display = 'none';
+        pauseButton.style.display = 'inline-block';
+        stopButton.style.display = 'inline-block';
         reRecordButton.style.display = 'none';
+        playbackButton.style.display = 'none';
+        saveButton.style.display = 'none';
+        audioPlayback.style.display = 'none';
         startTimer();
         startRecording();
-    } else {
+    }
+});
+
+pauseButton.addEventListener('click', () => {
+    if (isRecording) {
+        if (!isPaused) {
+            // Pause recording
+            mediaRecorder.pause();
+            isPaused = true;
+            pauseButton.textContent = '▶️ Resume Recording';
+            stopTimer();
+        } else {
+            // Resume recording
+            mediaRecorder.resume();
+            isPaused = false;
+            pauseButton.textContent = '⏸️ Pause Recording';
+            startTimer();
+        }
+    }
+});
+
+stopButton.addEventListener('click', () => {
+    if (isRecording) {
         // Stop recording
         isRecording = false;
-        recordButton.textContent = '🎙️ Record';
-        reRecordButton.style.display = 'inline-block';
-        stopTimer();
         stopRecording();
+        stopButton.style.display = 'none';
+        pauseButton.style.display = 'none';
+        reRecordButton.style.display = 'inline-block';
+        playbackButton.style.display = 'inline-block';
+        saveButton.style.display = 'inline-block';
+        stopTimer();
     }
 });
 
 reRecordButton.addEventListener('click', () => {
     resetRecording();
+    reRecordButton.style.display = 'none';
+    playbackButton.style.display = 'none';
+    saveButton.style.display = 'none';
+    audioPlayback.style.display = 'none';
+    recordButton.style.display = 'inline-block';
+});
+
+playbackButton.addEventListener('click', () => {
+    if (audioChunks.length > 0) {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav; codecs=MS_PCM' });
+        const audioUrl = URL.createObjectURL(audioBlob);
+        audioPlayback.src = audioUrl;
+        audioPlayback.style.display = 'block';
+    }
+});
+
+saveButton.addEventListener('click', () => {
+    if (audioChunks.length > 0 && liveTranscript) {
+        const audioBlob = new Blob(audioChunks, { type: 'audio/wav; codecs=MS_PCM' });
+        const formData = new FormData();
+        formData.append('audio', audioBlob);
+        formData.append('transcription', liveTranscript);
+
+        fetch('/new_entry/save_entry', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (response.ok) {
+                alert('Entry saved successfully!');
+                // Redirect to the new note entry using the note_id returned from the response
+                window.location.href = `/view_entry/${data.note_id}`;
+            } else {
+                alert('Failed to save entry.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 });
 
 async function startRecording() {
@@ -49,7 +122,8 @@ async function startRecording() {
 function stopRecording() {
     mediaRecorder.stop();
     mediaRecorder.onstop = () => {
-        audioChunks = []; // Clear the audio chunks after stopping
+        // Once recording is stopped, allow playback
+        audioChunks = [...audioChunks]; // Keep the recorded chunks for playback
     };
 }
 
@@ -92,9 +166,10 @@ async function streamAudio(audioData) {
 
 function updateLiveTranscription(text) {
     liveTranscript += ' ' + text;
-    const transcriptLines = liveTranscript.split(' ');
+    const transcriptWords = liveTranscript.split(' ');
     const maxWordsPerLine = 10;
-    const displayedTranscript = transcriptLines.slice(-2 * maxWordsPerLine).join(' ');
+    const displayedTranscript = transcriptWords.slice(-2 * maxWordsPerLine).join(' ');
 
     liveTranscription.textContent = displayedTranscript;
+    liveTranscription.scrollTop = liveTranscription.scrollHeight; // Auto-scroll
 }
