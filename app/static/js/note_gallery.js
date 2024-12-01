@@ -274,10 +274,15 @@ document.addEventListener('DOMContentLoaded', function () {
             if (response.ok) {
                 const data = await response.json();
     
-                if (data && data.summary && Array.isArray(data.relevant_notes)) {
-                    displaySummary(data.summary); // Display the new summary
-                    const groupedNotes = groupNotesByFilter(data.relevant_notes, currentFilter);
-                    renderNotes(groupedNotes);
+                if (data && Array.isArray(data.relevant_notes)) {
+                    if (data.summary) {
+                        displaySummary(data.summary); // Display the new summary
+                        const groupedNotes = groupNotesByFilter(data.relevant_notes, currentFilter);
+                        renderNotes(groupedNotes);
+                    }
+                    else {
+                        displaySummary('');
+                    }
                 } else {
                     console.error('Invalid response structure:', data);
                     alert('Invalid response received from server.');
