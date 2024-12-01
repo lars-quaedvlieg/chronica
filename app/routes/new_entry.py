@@ -51,8 +51,10 @@ def save_entry():
     try:
         transcription = T.process_audio(os.path.join(save_path, 'audio.wav')) # request.form['transcription']
     except Exception as ex:
+        print("Exception :(")
         print(ex)
         transcription = "Error"
+    print("Return transcription", transcription)
 
     # Extract the title, summary, and tags from the transcription
     title, summary, tags = get_title_summary_tags_from_transcription(transcription)
@@ -61,6 +63,7 @@ def save_entry():
     datetime_str = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
     # Save the JSON metadata
+    print("NEW transcription", transcription)
     json_dict = {
         'id': note_id,
         'title': title,
