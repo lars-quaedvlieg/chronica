@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function () {
         notes.forEach(note => {
             const noteDate = new Date(note.datetime);
             let groupKey;
-
+    
             if (filter === 'month') {
                 groupKey = noteDate.toLocaleString('default', { month: 'long', year: 'numeric' });
             } else if (filter === 'week') {
@@ -62,7 +62,7 @@ document.addEventListener('DOMContentLoaded', function () {
             } else if (filter === 'year') {
                 groupKey = noteDate.getFullYear().toString();
             }
-
+    
             if (!groupedNotes[groupKey]) {
                 groupedNotes[groupKey] = [];
             }
@@ -190,7 +190,10 @@ document.addEventListener('DOMContentLoaded', function () {
     // Trigger search with semantic approach
     async function triggerSearch() {
         const query = searchBar.value.trim();
-
+    
+        // Clear the summary for a new search
+        displaySummary('');
+    
         try {
             const response = await fetch('/note_gallery/semantic_search', {
                 method: 'POST',
@@ -199,10 +202,10 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify({ query: query })
             });
-
+    
             if (response.ok) {
                 const data = await response.json();
-
+    
                 // Validate data.notes before rendering
                 if (data && Array.isArray(data.notes)) {
                     const groupedNotes = groupNotesByFilter(data.notes, currentFilter);
@@ -219,8 +222,7 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error with semantic search:', error);
             alert('An error occurred while performing the search.');
         }
-
-    }
+    }    
 
     // Event Listener for Search Button
     searchButton.addEventListener('click', triggerSearch);
@@ -234,11 +236,85 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
     // Event Listeners
+    // Event Listener for Ask Button
+    document.getElementById('ask-button').addEventListener('click', triggerAsk);
+
+    // Update Event Listener for Filter Buttons
     filterButtons.forEach(button => {
-        button.addEventListener('click', (event) => {
-            currentFilter = event.target.value;
-            const groupedNotes = groupNotesByFilter(notes, currentFilter);
+        button.addEventListener('click', () => {
+            const filteredNotes = currentNotes.filter(note => {
+                const noteDate = new Date(note.datetime);
+                if (currentFilter === 'month') {
+                    return noteDate.toLocaleString('default', { month: 'long', year: 'numeric' }) === groupKey;
+                } else if (currentFilter === 'week') {
+                    // Compute week filter logic here
+                } else if (currentFilter === 'year') {
+                    return noteDate.getFullYear().toString() === groupKey;
+                }
+                return false;
+            });
+            const groupedNotes = groupNotesByFilter(filteredNotes, currentFilter);
             renderNotes(groupedNotes);
         });
     });
+
+        
+    async function triggerAsk() {
+        const query = searchBar.value.trim();
+    
+        try {
+            const response = await fetch('/note_gallery/rag_summary', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ query: query })
+            });
+    
+            if (response.ok) {
+                const data = await response.json();
+    
+                if (data && data.summary && Array.isArray(data.relevant_notes)) {
+                    displaySummary(data.summary); // Display the new summary
+                    const groupedNotes = groupNotesByFilter(data.relevant_notes, currentFilter);
+                    renderNotes(groupedNotes);
+                } else {
+                    console.error('Invalid response structure:', data);
+                    alert('Invalid response received from server.');
+                }
+            } else {
+                console.error('Failed to fetch RAG summary: ', response.status, response.statusText);
+                alert('Failed to fetch Ask results. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error with Ask functionality:', error);
+            alert('An error occurred while processing the Ask request.');
+        }
+    }
+    
+
+    function displaySummary(summaryText) {
+        let summaryContainer = document.getElementById('summary-container');
+    
+        // Create the summary container if it doesn't exist
+        if (!summaryContainer) {
+            summaryContainer = document.createElement('div');
+            summaryContainer.id = 'summary-container';
+            summaryContainer.classList.add('summary-container');
+            const container = document.querySelector('.container');
+            container.insertBefore(summaryContainer, notesContainer);
+        }
+    
+        // Update the summary content or hide the box if the summary is empty
+        if (summaryText) {
+            summaryContainer.textContent = summaryText;
+            summaryContainer.classList.add('fade-in');
+            summaryContainer.style.display = 'block'; // Ensure it is visible
+        } else {
+            summaryContainer.style.display = 'none'; // Hide the box if no summary
+        }
+    }
+    
+
+
 });
