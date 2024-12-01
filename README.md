@@ -50,9 +50,20 @@ To set up and run Chronica locally, follow these steps:
     ```sh
     pip install -r requirements.txt
     sudo apt install portaudio19-dev
-    sudo apt-get install libcudnn8
-    sudo apt-get install libcudnn8-dev
     ```
+
+3. **[Install the Required CUDA Version](https://stackoverflow.com/questions/66977227/could-not-load-dynamic-library-libcudnn-so-8-when-running-tensorflow-on-ubun)**:
+
+   ```sh
+   wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/cuda-ubuntu2004.pin
+   sudo mv cuda-ubuntu2004.pin /etc/apt/preferences.d/cuda-repository-pin-600
+   export last_public_key=3bf863cc
+   sudo apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/${last_public_key}.pub
+   sudo add-apt-repository "deb https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/ /"
+   sudo apt-get update
+   sudo apt-get install libcudnn8
+   sudo apt-get install libcudnn8-dev
+   ```
 
 ## Running the Application
 
