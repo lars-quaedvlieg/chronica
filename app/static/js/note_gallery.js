@@ -195,6 +195,7 @@ document.addEventListener('DOMContentLoaded', function () {
         displaySummary('');
     
         try {
+            console.log(query);
             const response = await fetch('/note_gallery/semantic_search', {
                 method: 'POST',
                 headers: {

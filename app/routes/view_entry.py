@@ -13,4 +13,5 @@ def view_entry(note_id):
     if not note:
         return "Note not found", 404
 
+    print(note)
     return render_template('view_entry.html', note=note)

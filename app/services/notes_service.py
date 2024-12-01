@@ -2,6 +2,8 @@ import json
 import os
 from datetime import datetime
 
+import markdown
+
 NOTES_DIR = 'app/static/notes'
 
 def load_notes(note_ids=None):
@@ -29,11 +31,11 @@ def load_most_recent_k_notes(k):
 
             if os.path.isdir(note_dir) and os.path.exists(json_path):
                 # Read the note data from the JSON file
-                with open(json_path, 'r') as json_file:
+                with open(json_path, 'r', encoding='utf-8') as json_file:
                     note = json.load(json_file)
                     # Parse the datetime for sorting later
                     note['parsed_datetime'] = datetime.fromisoformat(note['datetime'])
-                    notes.append(note)
+                    notes.append(parse_node_dict(note))
 
     # Sort notes by parsed datetime in descending order (most recent first)
     sorted_notes = sorted(notes, key=lambda x: x['parsed_datetime'], reverse=True)
@@ -50,9 +52,9 @@ def load_note_ids(note_ids):
     for note_id in note_ids:
         note_path = os.path.join(NOTES_DIR, str(note_id), f'data.json')
         if os.path.exists(note_path):
-            with open(note_path, 'r') as json_file:
+            with open(note_path, 'r', encoding='utf-8') as json_file:
                 note = json.load(json_file)
-                notes.append(note)
+                notes.append(parse_node_dict(note))
     return notes
 
 
@@ -66,7 +68,14 @@ def load_all_notes():
             note_dir = os.path.join(NOTES_DIR, note_id)
             json_path = os.path.join(note_dir, f'data.json')
             if os.path.isdir(note_dir) and os.path.exists(json_path):
-                with open(json_path, 'r') as json_file:
+                with open(json_path, 'r', encoding='utf-8') as json_file:
                     note = json.load(json_file)
-                    notes.append(note)
+                    notes.append(parse_node_dict(note))
     return notes
+
+def parse_node_dict(node_dict):
+    # Convert the Markdown summary to HTML
+    if 'summary' in node_dict.keys():
+        node_dict['summary_html'] = markdown.markdown(node_dict['summary'])
+
+    return node_dict

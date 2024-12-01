@@ -2,10 +2,8 @@
 
 promptDict = {
             "noteTaker":
-                        """You are a highly efficient and detail-oriented note-taker. Your task is to read through the following text and extract all important points, minutes, or actionable details. Organize the information into clear, concise bullet points or sections, using headers if necessary. The output should be easy to read and well-structured for someone reviewing the notes later. Ignore irrelevant or redundant information.
-
+                        """You are a highly efficient and detail-oriented note-taker. Your task is to read through the following text and extract all important points, minutes, or actionable details. Respond with an organized summary which follows these guidelines
                         Guidelines:
-
                         Identify Key Information: Focus on the main ideas and critical details
                         Organize Logically: Group related information under appropriate headings or categories.
                         Simplify Complex Ideas: Summarize complex or cluttered sentences into simple, understandable phrases.
@@ -17,41 +15,6 @@ promptDict = {
                         {text}
 
                         Summary:
-
-                        Example Usage 1:
-                        Input Text:
-                        "Today’s meeting was a bit chaotic. First, we discussed the budget for the new project but didn’t finalize anything. Sarah mentioned some issues with the timeline and requested an extension. Meanwhile, Mike brought up marketing strategies, but it was clear no one had prepared, so it was left for the next meeting. We also talked about hiring interns for the summer, but again, no decision was made. Overall, lots of ideas but not much progress."
-
-                        AI Response (as Note-Taker):
-
-                        Discussion Points:
-                        - Budget for new project discussed but not finalized.
-                        - Timeline issues raised by Sarah; extension requested.
-                        - Marketing strategies brought up by Mike; deferred due to lack of preparation.
-                        - Intern hiring discussed for summer; no decisions made.
-
-
-                        Example Usage 2:
-
-                        Input Text:
-                        "Ah, Japan. I can still remember the trip like it was yesterday. What stood out the most—aside from the temples and all that history—was the food. Sushi, oh my goodness. The real deal over there is nothing like the stuff you get back home. I remember sitting at this tiny sushi bar, the chef slicing fish with this precision that felt almost meditative. There’s something so simple yet perfect about it—just vinegared rice, fresh seafood, and maybe a touch of wasabi. Oh, and they always serve it with pickled ginger and soy sauce; it’s like a little ritual. Honestly, I didn’t even like wasabi before, but something about the way they do it there just made it all click. I could feel how much respect they have for the craft. It’s not just food; it’s an art form. I think I even overheard someone say that people travel across the globe just for a plate of authentic sushi. Yeah, I totally get it now."
-
-                        AI Response (as Note-Taker):
-
-                        Cultural Significance:  
-                        - Japan is renowned for its rich cultural heritage, including its traditional cuisine.
-
-                        About Sushi:  
-                        - Sushi is a popular dish made of vinegared rice paired with ingredients such as seafood, vegetables, or tropical fruits.  
-                        - It is commonly served with pickled ginger, wasabi, and soy sauce.
-
-                        Art of Sushi-Making:  
-                        - Sushi preparation is considered a revered skill in Japan.  
-                        - Master chefs dedicate years to perfecting the craft, elevating it to an art form.
-
-                        Tourism Appeal:  
-                        - Many travelers visit Japan specifically to experience authentic sushi made by expert chefs.
-
                         """,
 
 
@@ -117,3 +80,39 @@ title_example="""
                         AI Response (as Title Generator):
 
                         Title: Unproductive & Chaotic Meeting """
+
+
+summary_example = """Example Usage 1:
+                        Input Text:
+                        "Today’s meeting was a bit chaotic. First, we discussed the budget for the new project but didn’t finalize anything. Sarah mentioned some issues with the timeline and requested an extension. Meanwhile, Mike brought up marketing strategies, but it was clear no one had prepared, so it was left for the next meeting. We also talked about hiring interns for the summer, but again, no decision was made. Overall, lots of ideas but not much progress."
+
+                        AI Response (as Note-Taker):
+
+                        Discussion Points:
+                        - Budget for new project discussed but not finalized.
+                        - Timeline issues raised by Sarah; extension requested.
+                        - Marketing strategies brought up by Mike; deferred due to lack of preparation.
+                        - Intern hiring discussed for summer; no decisions made.
+
+
+                        Example Usage 2:
+
+                        Input Text:
+                        "Ah, Japan. I can still remember the trip like it was yesterday. What stood out the most—aside from the temples and all that history—was the food. Sushi, oh my goodness. The real deal over there is nothing like the stuff you get back home. I remember sitting at this tiny sushi bar, the chef slicing fish with this precision that felt almost meditative. There’s something so simple yet perfect about it—just vinegared rice, fresh seafood, and maybe a touch of wasabi. Oh, and they always serve it with pickled ginger and soy sauce; it’s like a little ritual. Honestly, I didn’t even like wasabi before, but something about the way they do it there just made it all click. I could feel how much respect they have for the craft. It’s not just food; it’s an art form. I think I even overheard someone say that people travel across the globe just for a plate of authentic sushi. Yeah, I totally get it now."
+
+                        AI Response (as Note-Taker):
+
+                        Cultural Significance:  
+                        - Japan is renowned for its rich cultural heritage, including its traditional cuisine.
+
+                        About Sushi:  
+                        - Sushi is a popular dish made of vinegared rice paired with ingredients such as seafood, vegetables, or tropical fruits.  
+                        - It is commonly served with pickled ginger, wasabi, and soy sauce.
+
+                        Art of Sushi-Making:  
+                        - Sushi preparation is considered a revered skill in Japan.  
+                        - Master chefs dedicate years to perfecting the craft, elevating it to an art form.
+
+                        Tourism Appeal:  
+                        - Many travelers visit Japan specifically to experience authentic sushi made by expert chefs.
+"""

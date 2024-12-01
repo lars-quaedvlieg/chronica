@@ -168,7 +168,7 @@ function updateLiveTranscription(text) {
     liveTranscript += ' ' + text;
     const transcriptWords = liveTranscript.split(' ');
     const maxWordsPerLine = 10;
-    liveTranscription.textContent = transcriptWords.slice(-20 * maxWordsPerLine).join(' ');
+    liveTranscription.textContent = transcriptWords.slice(-50 * maxWordsPerLine).join(' ');
 
     // Auto-scroll the transcription box to the bottom
     liveTranscription.scrollTop = liveTranscription.scrollHeight;

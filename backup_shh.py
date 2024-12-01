@@ -1,5 +1,6 @@
 from faster_whisper import WhisperModel
 
+print('Also called')
 model = WhisperModel("large-v3", compute_type="int8")
 
 def transcribe(wav_path: str) -> str:

@@ -2,3 +2,6 @@ flask
 numpy==1.26.4
 whisper-live
 ctranslate2==4.4.0
+qdrant-client
+sentence-transformers
+markdown

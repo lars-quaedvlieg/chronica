@@ -49,12 +49,12 @@ def rag_summary():
     # Extract the search query
     query = data['query']
 
+    matching_notes = semantic_search_notes(query)
     if len(query) == 0:
-        matching_notes = load_all_notes()
         summary = ""
     else:
         # Call the semantic search service to find matching notes
-        summary, matching_notes = get_rag_summary(query)
+        summary = get_rag_summary(query, matching_notes)
 
     print(matching_notes, summary)
 

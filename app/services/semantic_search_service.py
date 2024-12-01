@@ -2,12 +2,12 @@ from app.services.notes_service import load_all_notes, load_note_ids
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
-
+print('Called')
 collection_name = "journal_notes"
 client = QdrantClient("http://localhost:6333")
 encoder = SentenceTransformer("BAAI/bge-base-en-v1.5")
 
-def semantic_search_notes(query):
+def semantic_search_notes(query, threshold=0.5):
     """
     Perform a semantic search on the saved notes based on the query.
 
@@ -22,10 +22,11 @@ def semantic_search_notes(query):
     hits = client.query_points(
         collection_name=collection_name,
         query=encoder.encode(query).tolist(),
-        limit=5,
+        # limit=1,
     ).points
 
-    matching_ids = [hit.id for hit in hits]
+    matching_ids = [hit.id for hit in hits if hit.score>threshold]
+    print([hit.score for hit in hits])
     matching_notes = load_note_ids(matching_ids)
 
     return matching_notes

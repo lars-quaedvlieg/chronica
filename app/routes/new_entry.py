@@ -13,6 +13,7 @@ from app.services.notes_service import load_note_ids
 
 NOTES_DIR = 'app/static/notes'
 bp = Blueprint('new_entry', __name__, url_prefix='/new_entry')
+
 collection_name = "journal_notes"
 client = QdrantClient("http://localhost:6333")
 encoder = SentenceTransformer("BAAI/bge-base-en-v1.5")
@@ -116,10 +117,10 @@ def save_entry():
 
     # Generate a unique note ID using the current timestamp (as an integer)
     current_time = datetime.datetime.now()
-    note_id = str(int(current_time.timestamp()))
+    note_id = int(current_time.timestamp())
 
     # Create a directory to store the note
-    save_path = os.path.join(NOTES_DIR, note_id)
+    save_path = os.path.join(NOTES_DIR, str(note_id))
     os.makedirs(save_path, exist_ok=True)
 
     # Save the audio data
@@ -138,7 +139,7 @@ def save_entry():
 
     # Save the JSON metadata
     json_dict = {
-        'id': note_id,
+        'id': str(note_id),
         'title': title,
         'summary': summary,
         'tags': tags,
@@ -160,4 +161,4 @@ def save_entry():
 
     # Additional logic such as saving to a database can be added here
 
-    return jsonify({'message': 'Entry saved successfully', 'note_id': note_id}), 200
+    return jsonify({'message': 'Entry saved successfully', 'note_id': str(note_id)}), 200
