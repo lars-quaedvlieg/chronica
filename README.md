@@ -2,7 +2,7 @@
 
 <img src="res/logo.jpg" alt="drawing" width="200"/>
 
-Chronica is a completely on-device Flask-based web application designed to help you create, manage, and visualize notes effectively and securely. It features an intuitive and interactive UI that lets you add new notes with audio transcriptions, explore saved notes in a gallery, and even perform semantic searches through your entries.
+Chronica is a completely on-device Flask-based web application designed to help you create, manage, and visualize notes effectively and securely. It features an intuitive and interactive UI that allows you to log your unstructured thoughts, automatically transcribe and structure your notes, explore saved notes in a gallery, and even perform semantic searches and ask for insights about your entries.
 
 ## Features
 
