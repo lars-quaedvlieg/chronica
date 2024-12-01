@@ -1,3 +1,4 @@
+import markdown
 import ollama
 
 from app.services.notes_service import load_all_notes
@@ -42,4 +43,4 @@ def get_rag_summary(query, matching_notes):
         summary = f"An error occurred while generating the summary: {str(e)}"
 
     # Step 4: Return the summary and relevant notes
-    return summary
+    return markdown.markdown(summary)

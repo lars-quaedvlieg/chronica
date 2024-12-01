@@ -13,8 +13,7 @@ collection_name = "journal_notes"
 client = QdrantClient("http://localhost:6333")
 encoder = SentenceTransformer("BAAI/bge-base-en-v1.5")
 
-all_tags = ['Work', 'Reflection', 'Food', 'Travel']
-all_titles = ['Working from Home', 'Working from Work', 'Depression', 'Ending Things', 'Another Day', 'Racism']
+all_tags = ['Work', 'Reflection', 'Food', 'Travel', 'Sport']
 
 def get_title_summary_tags_from_transcription(text):
     """
