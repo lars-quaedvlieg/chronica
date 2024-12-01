@@ -5,3 +5,4 @@ ctranslate2==4.4.0
 qdrant-client
 sentence-transformers
 markdown
+worldcloud
