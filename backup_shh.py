@@ -1,9 +1,9 @@
 from faster_whisper import WhisperModel
 
+model = WhisperModel("large-v3", compute_type="int8")
 
 def transcribe(wav_path: str) -> str:
     print("Loading whisper")
-    model = WhisperModel("large-v3", compute_type="int8")
     print("Segmentation baby!")
     segments, info = model.transcribe(wav_path, beam_size=5)
     segments = list(segments)
