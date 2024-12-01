@@ -50,6 +50,8 @@ To set up and run Chronica locally, follow these steps:
     ```sh
     pip install -r requirements.txt
     sudo apt install portaudio19-dev
+    sudo apt-get install libcudnn8
+    sudo apt-get install libcudnn8-dev
     ```
 
 ## Running the Application
