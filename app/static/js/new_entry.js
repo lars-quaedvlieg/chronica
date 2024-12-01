@@ -147,8 +147,7 @@ function stopTimer() {
 
 async function streamAudioChunk(audioData) {
     const formData = new FormData();
-    const audioBlob = new Blob([audioData], { type: 'audio/wav; codecs=MS_PCM' });
-    formData.append('audio', audioBlob);
+    formData.append('audio', audioData);
 
     try {
         const response = await fetch('/new_entry/stream_audio', {
@@ -163,12 +162,6 @@ async function streamAudioChunk(audioData) {
     } catch (error) {
         console.error('Error streaming audio chunk:', error);
     }
-}
-
-function updateProgressBar(seconds) {
-    const maxTime = 120; // e.g., 2 minutes maximum
-    const percentage = Math.min((seconds / maxTime) * 100, 100);
-    document.getElementById('recording-progress').style.width = percentage + '%';
 }
 
 function updateLiveTranscription(text) {
