@@ -164,12 +164,6 @@ async function streamAudioChunk(audioData) {
     }
 }
 
-function updateProgressBar(seconds) {
-    const maxTime = 120; // e.g., 2 minutes maximum
-    const percentage = Math.min((seconds / maxTime) * 100, 100);
-    document.getElementById('recording-progress').style.width = percentage + '%';
-}
-
 function updateLiveTranscription(text) {
     liveTranscript += ' ' + text;
     const transcriptWords = liveTranscript.split(' ');
