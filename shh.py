@@ -91,7 +91,7 @@ assert len(CLIENT.clients) == 1
 CLIENT.stream = CLIENT.p.open(
     format=CLIENT.p.get_format_from_width(2),  # TODO maybe not 2?
     channels=CLIENT.channels,
-    rate=16000, # TODO maybe different?
+    rate=48000, #16000, # TODO maybe different?
     input=True,
     output=True,
     frames_per_buffer=CLIENT.chunk,
@@ -101,8 +101,8 @@ CLIENT.stream = CLIENT.p.open(
 def update_recording(new_entry_path: str) -> str:
     print(f"[INFO] Whispering path {new_entry_path}")
     with wave.open(new_entry_path, "rb") as wavfile:
-        assert wavfile.getframerate() == 16000, wavfile.getframerate()
-        assert wavfile.getsampwidth() == 2
+        assert wavfile.getframerate() == 48000, wavfile.getframerate()
+        assert wavfile.getsampwidth() == 2, wavfile.getsampwidth()
         print("[INFO] This wav should be", wavfile.getnframes()/wavfile.getframerate(), "seconds")
         while (data := wavfile.readframes(CLIENT.chunk)) != b"":
             print("[INFO] Sending data with length", len(data))

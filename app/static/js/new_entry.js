@@ -121,7 +121,7 @@ async function startRecording() {
         }
     };
 
-    mediaRecorder.start(1000); // Request data every 1000 ms (1 second)
+    mediaRecorder.start(2000); // Request data every 2000 ms (2 second)
 }
 
 function resetRecording() {
@@ -138,7 +138,7 @@ function startTimer() {
         const minutes = String(Math.floor(seconds / 60)).padStart(2, '0');
         const secs = String(seconds % 60).padStart(2, '0');
         timerDisplay.textContent = `${minutes}:${secs}`;
-    }, 1000);
+    }, 2000);
 }
 
 function stopTimer() {
