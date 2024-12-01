@@ -19,11 +19,6 @@ def new_entry():
 @bp.route('/stream_audio', methods=['POST'])
 def stream_audio():
     audio_data = request.files['audio']
-    print("Aids")
-    # Process the audio using the transcription service
-    print(audio_data)
-    audio_data.save('tmp.wav')
-
     transcript_chunk = "" #transcription.process_audio(audio_data)
     return jsonify({'transcription': transcript_chunk})
 
@@ -48,13 +43,7 @@ def save_entry():
 
     subprocess.call(f'ffmpeg -y -i {save_path}/audio.webm {save_path}/audio.wav', shell=True)
 
-    try:
-        transcription = T.process_audio(os.path.join(save_path, 'audio.wav')) # request.form['transcription']
-    except Exception as ex:
-        print("Exception :(")
-        print(ex)
-        transcription = "Error"
-    print("Return transcription", transcription)
+    transcription = T.process_audio(os.path.join(save_path, 'audio.wav'))
 
     # Extract the title, summary, and tags from the transcription
     title, summary, tags = get_title_summary_tags_from_transcription(transcription)
@@ -63,7 +52,6 @@ def save_entry():
     datetime_str = current_time.strftime('%Y-%m-%d %H:%M:%S')
 
     # Save the JSON metadata
-    print("NEW transcription", transcription)
     json_dict = {
         'id': note_id,
         'title': title,

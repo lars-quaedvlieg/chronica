@@ -75,7 +75,7 @@ reRecordButton.addEventListener('click', () => {
 
 playbackButton.addEventListener('click', () => {
     if (audioChunks.length > 0) {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav; codecs=MS_PCM' });
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
         audioPlayback.src = URL.createObjectURL(audioBlob);
         audioPlayback.style.display = 'block';
     }
@@ -83,7 +83,7 @@ playbackButton.addEventListener('click', () => {
 
 saveButton.addEventListener('click', () => {
     if (audioChunks.length > 0 && liveTranscript) {
-        const audioBlob = new Blob(audioChunks, { type: 'audio/wav; codecs=MS_PCM' });
+        const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
         const formData = new FormData();
         formData.append('audio', audioBlob);
         formData.append('transcription', liveTranscript);
