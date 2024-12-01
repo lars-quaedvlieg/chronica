@@ -1,5 +1,11 @@
-from app.services.notes_service import load_all_notes
+from app.services.notes_service import load_all_notes, load_note_ids
+from qdrant_client import QdrantClient
+from sentence_transformers import SentenceTransformer
 
+
+collection_name = "journal_notes"
+client = QdrantClient("http://localhost:6333")
+encoder = SentenceTransformer("BAAI/bge-base-en-v1.5")
 
 def semantic_search_notes(query):
     """

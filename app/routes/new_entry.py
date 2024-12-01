@@ -2,17 +2,17 @@ import datetime
 import json
 import os
 import subprocess
-
+import uuid
+from qdrant_client import QdrantClient, models
 from flask import Blueprint, render_template, request, jsonify
-
+from sentence_transformers import SentenceTransformer
 from app.services import transcription as T
 from app.services.transcription_information import get_title_summary_tags_from_transcription
-from app.services.tags_service import load_note_ids
+from app.services.notes_service import load_note_ids
 
 
 NOTES_DIR = 'app/static/notes'
 bp = Blueprint('new_entry', __name__, url_prefix='/new_entry')
-
 collection_name = "journal_notes"
 client = QdrantClient("http://localhost:6333")
 encoder = SentenceTransformer("BAAI/bge-base-en-v1.5")
@@ -33,6 +33,27 @@ def query_collection(query, collection_name="journal_notes"):
     return matching_notes
 
 
+def add_to_vectordb(note_id, summary, collection_name="journal_notes"):
+    if not client.collection_exists(collection_name):
+        client.create_collection(
+            collection_name=collection_name,
+            vectors_config=models.VectorParams(
+                size=encoder.get_sentence_embedding_dimension(),
+                distance=models.Distance.COSINE,
+            ),
+        )
+
+    embedding = encoder.encode([summary])[0].tolist()
+    client.upsert(
+        collection_name=collection_name,
+        points=[
+            models.PointStruct(
+                id=note_id,
+                vector=embedding,
+            )
+        ],
+    )
+
 def store_collection(data, collection_name="journal_notes"):
     """
     Store notes in the vector database.
@@ -50,7 +71,7 @@ def store_collection(data, collection_name="journal_notes"):
 
     documents = []
     for item in data:
-        title, formatted_text, tags = get_text(item)
+        title, formatted_text, tags = get_title_summary_tags_from_transcription(item)
         note_id = str(uuid.uuid4())
 
         documents.append(

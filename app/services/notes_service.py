@@ -2,8 +2,7 @@ import json
 import os
 from datetime import datetime
 
-from app.routes.new_entry import NOTES_DIR
-
+NOTES_DIR = 'app/static/notes'
 
 def load_notes(note_ids=None):
     """
