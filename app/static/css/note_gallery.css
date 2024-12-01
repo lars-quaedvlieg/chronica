@@ -103,7 +103,7 @@ body {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
     margin-bottom: 20px; /* Add spacing below the box */
     margin-top: 20px; /* Add spacing above the box */
-    text-align: center; /* Center align the text */
+    text-align: left; /* Center align the text */
 }
 
 /* Add animation for summary box to draw attention */

@@ -43,4 +43,5 @@ def get_rag_summary(query, matching_notes):
         summary = f"An error occurred while generating the summary: {str(e)}"
 
     # Step 4: Return the summary and relevant notes
+    summary = summary.replace("\n", "\n\n").replace("\n\n\n\n", "\n\n")
     return markdown.markdown(summary)

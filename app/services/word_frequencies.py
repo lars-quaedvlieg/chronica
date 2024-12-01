@@ -13,7 +13,7 @@ stopwords = {
     'be', 'because', 'been', 'before', 'being', 'below', 'between', 'both', 'but', 'by',
     'can', "can't", 'cannot', 'could', "couldn't",
     'did', "didn't", 'do', 'does', "doesn't", 'doing', "don't", 'down', 'during',
-    'each',
+    'each', "say",
     'few', 'for', 'from', 'further',
     'had', "hadn't", 'has', "hasn't", 'have', "haven't", 'having', 'he', "he'd", "he'll", "he's", 'her', 'here', "here's", 'hers', 'herself', 'him', 'himself', 'his', 'how', "how's",
     'i', "i'd", "i'll", "i'm", "i've", 'if', 'in', 'into', 'is', "isn't", 'it', "it's", 'its', 'itself',
@@ -44,7 +44,7 @@ def generate_word_frequencies():
         if os.path.isfile(note_path):
             with open(note_path, 'r') as note_file:
                 note_data = json.load(note_file)
-                summary = note_data.get('transcription', "")
+                summary = note_data.get('summary', "")
 
                 # Normalize and clean the text
                 words = re.findall(r'\b\w+\b', summary.lower())

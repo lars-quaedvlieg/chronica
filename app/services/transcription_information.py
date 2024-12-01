@@ -29,6 +29,6 @@ def get_title_summary_tags_from_transcription(text):
     tag = ollama.generate(model='llama3.2:3b', prompt=promptDict['tagPrompt'].format(text=text, tags=all_tags))['response']
 
     # Extract tags using regex
-    tag_list = [x for x in re.findall(r'\b\w+\b', tag) if x in all_tags]
+    tag_list = list(set([x for x in re.findall(r'\b\w+\b', tag) if x in all_tags]))
 
     return title, formatted_text, tag_list

@@ -22,19 +22,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const tagColors = {};
 
-    // Function to generate random pastel color for tags
-    function getRandomColor() {
-        const letters = 'BCDEF';
-        let color = '#';
-        for (let i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * letters.length)];
+    // Function to generate a deterministic pastel color for tags
+    function getDeterministicPastelColor(tag) {
+        // Create a hash value based on the tag string
+        let hash = 0;
+        for (let i = 0; i < tag.length; i++) {
+            hash = tag.charCodeAt(i) + ((hash << 5) - hash);
         }
+
+        // Convert the hash value into a pastel color code
+        let color = '#';
+        for (let i = 0; i < 3; i++) {
+            const value = (hash >> (i * 8)) & 0xFF; // Extract byte by byte
+            // Convert to a pastel color by averaging it with a high value (e.g., 200-255)
+            const pastelValue = Math.floor((value % 128) + 127); // Ensure value is in the lighter range
+            color += ('0' + pastelValue.toString(16)).slice(-2);
+        }
+
         return color;
     }
 
     // Assign random colors to each unique tag
     tags.forEach(tag => {
-        tagColors[tag] = getRandomColor();
+        tagColors[tag] = getDeterministicPastelColor(tag);
     });
 
     // Render available tags
@@ -122,6 +132,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 card.setAttribute('data-id', note.id);
                 card.setAttribute('data-datetime', note.datetime);
                 card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+
+                // Set the border color of the card based on the first tag
+                if (note.tags.length > 0) {
+                    const firstTag = note.tags[0];
+                    const borderColor = tagColors[firstTag];
+                    card.style.border = `4px solid ${borderColor}`;
+                }
 
                 card.addEventListener('mouseover', () => {
                     card.style.transform = 'translateY(-5px)';
