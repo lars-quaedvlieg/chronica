@@ -25,7 +25,7 @@ def get_title_summary_tags_from_transcription(text):
     """
     
     formatted_text = ollama.generate(model='llama3.2:3b', prompt=promptDict['noteTaker'].format(text=text))['response']
-    title = ollama.generate(model='llama3.2:3b', prompt=promptDict['titlePrompt'].format(text=text))['response']
+    title = ollama.generate(model='llama3.2:3b', prompt=promptDict['titlePrompt'].format(text=text))['response'].replace('"', '')
     tag = ollama.generate(model='llama3.2:3b', prompt=promptDict['tagPrompt'].format(text=text, tags=all_tags))['response']
 
     # Extract tags using regex
