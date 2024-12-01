@@ -1,5 +1,7 @@
 # Chronica
 
+<img src="res/logo.jpg" alt="drawing" width="200"/>
+
 Chronica is a Flask-based web application designed to help you create, manage, and visualize notes effectively. It features a beautiful and interactive UI that lets you add new notes with audio transcriptions, explore saved notes in a gallery, and even perform semantic searches through your entries.
 
 ## Features
@@ -9,6 +11,20 @@ Chronica is a Flask-based web application designed to help you create, manage, a
 - **Semantic Search**: Search through your notes with advanced semantic matching.
 - **Statistics Overview**: Visualize insights from your notes, such as word clouds of note summaries.
 - **Beautiful and Interactive UI**: Colors are used to represent tags, and cards have dynamic effects to enhance the user experience.
+
+## Screenshots
+
+### 1. Home Page
+![Home Page](res/home.png)
+
+### 2. Create a New Note
+![New Note Page](res/record.png)
+
+### 3. View Notes in the Gallery
+![Gallery Page](res/gallery.png)
+
+### 4. View Note Entry
+![View Entry Page](res/view_entry.png)
 
 ## Prerequisites
 
@@ -33,6 +49,7 @@ To set up and run Chronica locally, follow these steps:
 
     ```sh
     pip install -r requirements.txt
+    sudo apt install portaudio19-dev
     ```
 
 ## Running the Application
