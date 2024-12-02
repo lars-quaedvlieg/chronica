@@ -1,7 +1,7 @@
 from faster_whisper import WhisperModel
 
 print('Also called')
-model = WhisperModel("large-v3", compute_type="int8")
+model = WhisperModel("small", compute_type="int8", device="cpu")
 
 def transcribe(wav_path: str) -> str:
     print("Loading whisper")

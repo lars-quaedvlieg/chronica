@@ -19,7 +19,7 @@ promptDict = {
 
 
             "titlePrompt":
-                        """Respond with a short title for the following text: {text}.""",
+                        """Respond with a short title not exceeding 8 words for the following text: {text}.""",
 
             "tagPrompt": 
                         """Given the following text: {text}, choose the most appropriate tags from the following list: {tags}

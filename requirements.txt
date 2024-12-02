@@ -6,3 +6,4 @@ qdrant-client
 sentence-transformers
 markdown
 wordcloud
+ollama
